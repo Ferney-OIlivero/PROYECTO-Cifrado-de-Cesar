@@ -7,35 +7,48 @@ using namespace std;
 int main(int argc, char** argv) {
 	
 	string palabra;
-	int numero,tam;
+	int numero,tam,opc;
+	ofstream myfile;
 	
-	cout<<"INGRESE LA PALABRA QUE DESEA CODIFICAR"<<endl;
-	cin>>palabra;
-	cout<<"INGRESE El NUMERO DE LA CODIFICACION"<<endl;
-	cin>>numero;
+	cout<<"\tSELECIONES UNA OPCION"<<endl;
+	cout<<"1.- CODIFICAR"<<endl;
+	cout<<"1.- DECODIFICAR"<<endl;
+	cin>>opc;
+	switch(opc){
+		case 1:
+			cout<<"INGRESE LA PALABRA QUE DESEA CODIFICAR"<<endl;
+			cin>>palabra;
+			cout<<"INGRESE El NUMERO DE LA CODIFICACION"<<endl;
+			cin>>numero;
 	
-	tam=palabra.size();
-	for(int x=0; x<tam; x++){
-		palabra[x]=palabra[x]-((numero%26)-1);
+			tam=palabra.size();
+			for(int x=0; x<tam; x++){
+				palabra[x]=palabra[x]-((numero%26)-1);
+				
+				if(palabra[x]>90){
+					palabra[x]=palabra[x]-26;
+				}
+				if(palabra[x]<65){
+					palabra[x]=palabra[x]+26;
+				}
+			}
+			
+			cout<<"PALABRA CODIFICADA:    "<<palabra;
+	
+			
+			myfile.open ("codificado.txt",ios::trunc);
+			if(myfile.is_open()){
+				myfile<<palabra;
+			}
+			else{
+				cout<<"NO SE COPIO LA PALABRA"<<endl;
+			}
+			myfile.close();
+		break;
 		
-		if(palabra[x]>90){
-			palabra[x]=palabra[x]-26;
-		}
-		if(palabra[x]<65){
-			palabra[x]=palabra[x]+26;
-		}
+		case 2:
+			cout<<"";
+		break;
 	}
-		
-	cout<<"PALABRA CODIFICADA:    "<<palabra;
-	
-	ofstream myfile("codificado.txt",ios::trunc);
-	if(myfile.is_open()){
-		myfile<<palabra;
-	}
-	else{
-		cout<<"NO SE COPIO LA PALABRA"<<endl;
-	}
-	myfile.close();
-	
 	return 0;
 }
