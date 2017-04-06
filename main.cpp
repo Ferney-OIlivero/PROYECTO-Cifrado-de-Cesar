@@ -1,12 +1,14 @@
 #include <iostream>
 #include <fstream>
-
+#include "cdgCesar.h"
 
 using namespace std;
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
-
+bool validar(string valor);
+	
 int main(int argc, char** argv) {
 	
+	cdgCesar cesar;
 	string auxiliar,otra,texto;
 	int numero,tam,opc,cont=0;
 	ofstream myfile;
@@ -37,21 +39,14 @@ int main(int argc, char** argv) {
 				cout<<"ESCRITO:\n"<<texto<<endl;
 				cout<<"INGRESE El NUMERO DE LA CODIFICACION"<<endl;
 				cin>>numero;
-		
-				for(int x=0; x<tam; x++){
-					if(texto[x]>64 && texto[x]<91){
-						texto[x]=texto[x]-((numero%26)-1);
-						if(texto[x]<65){
-							texto[x]=texto[x]+26;
-						}
-					}	
-				}
+				
+				cesar.setCodificado(texto, numero, tam);
 			
-				cout<<"TEXTO CODIFICADO:\n"<<texto;
+				cout<<"TEXTO CODIFICADO:\n"<<cesar.getTexto();
 
 				myfile.open ("codificado.txt",ios::trunc);
 				if(myfile.is_open()){
-					myfile<<texto;
+					myfile<<cesar.getTexto();
 				}
 				else{
 					cout<<"NO SE COPIO LA PALABRA"<<endl;
@@ -63,19 +58,14 @@ int main(int argc, char** argv) {
 				cout<<"";
 				cout<<"INGRESE El NUMERO DE LA DECODIFICACION"<<endl;
 				cin>>numero;
+				
+				
 				archivo.open("codificado.txt");
 				if(archivo.is_open()){
 					while(getline(archivo,texto)){
 						tam=texto.size();
-						for(int x=0; x<tam; x++){
-							if(texto[x]>64 && texto[x]<91){
-								texto[x]=texto[x]+((numero%26)-1);
-								if(texto[x]>90){
-									texto[x]=texto[x]-26;
-								}
-							}
-						}
-						cout<<texto<<endl;
+						cesar.setDecodificado(texto, numero, tam);
+						cout<<cesar.getTexto()<<endl;
 					}
 				}
 				else{
@@ -90,4 +80,16 @@ int main(int argc, char** argv) {
 		}
 	}while(opc!=3);
 	return 0;
+}
+
+bool validar(string valor){
+    bool valido=true;
+    int tam=valor.size();
+	for(int i=0;i<tam;i++){
+		if((valor[i]<48 || valor[i]>57) && (valor[i]!=46)){
+			valido=false;
+			break;
+		}
+	}
+	return valido;
 }
