@@ -48,79 +48,146 @@ int main(int argc, char** argv) {
 		system("cls");
 		switch(opc){
 			case 1:
+				
+				fflush(stdin);
 				cout<<"\tBUSCAR ARCHIVO:\n\n";
-				cout<<"INGRESE EL NOMBRE DEL ARCHIVO CON SU RESPECTIVA EXTENSION\n";
-				cin>>nArchivo;
+				cout<<"INGRESE EL NOMBRE DEL ARCHIVO\n";
+				getline(cin,vartemp);
+				
+				tam=vartemp.size();
+				for (int x=0; x<tam; x++){
+					nArchivo[x]=vartemp[x];
+				}
+				system("cls");
 				ft= fopen(nArchivo,"r");
 				if(ft){
-					cout<<"EXISTE\n\n";
+					cout<<"\tARCHIVO ENCONTRADO!!\n\nAHORA YA PUEDE INICIAR SU CODIFICACION\n\n";
+					bandera=1;
 				}
 				else{
-					cout<<"NO EXISTE\n\n";
-				}
-				cout<<"INGRESE EL TEXTO QUE DESEA CODIFICAR"<<endl;
-				do{
-					fflush(stdin);
-					getline(cin,otra);
-					tam=(otra.size());
-					otra=transf_A_Mayuscula(otra, tam);
-					if(otra!=":SACAME"){
-						auxiliar=otra;
+					do{
+						system("cls");
+						fflush(stdin);
+						cout<<"EL ARCHIVO NO EXISTE!!\n\n";
+						cout<<"DESEA CREAR UNO NUEVO CON ESE NOMBRE\?\n";
+						cout<<"1.- SI"<<endl;
+						cout<<"2.- NO"<<endl;
+						getline(cin,vartemp);
+						
+						if(validacion(vartemp)==0){
+							cout<<"\n"<<ERROR<<endl<<endl;
+							system("pause");
+						}else{
+							istringstream(vartemp)>>opc;
+							bandera=1;
+							if(opc<1 || opc>2){
+								cout<<"\n"<<ERROR<<endl<<endl;
+								system("pause");
+								bandera=0;
+							}
+			            }   	
+					}while(bandera!=1);
+					if(opc==1){
+						myfile.open (nArchivo,ios::trunc);
+						if (myfile.is_open()){
+							cout<<"\nSE HA CREADO EL ARCHIVO!!\nAHORA YA PUEDE INICIAR SU CODIFICACION"<<endl<<endl;
+							bandera=1;
+						}else{
+							cout<<"\n\nERROR\n";
+							bandera=0;
+						}
+						myfile.close();
 					}else{
-						auxiliar="";
+						cout<<"\n\nOPERACION CANCELADA!!\n\n";
+						newPantalla();
+						bandera=0;
 					}
-					texto=texto+auxiliar+'\n';
-				}while(otra!=":SACAME");
-				
-				tam=(texto.size());
-				texto=transf_A_Mayuscula(texto, tam);
-				newPantalla();	
-				cout<<"\t TEXTO ESCRITO:\n\n"<<texto<<endl;
-				cout<<"INGRESE El NUMERO DE LA CODIFICACION"<<endl;
-				cin>>numero;
-				cesar.setCodificado(texto, numero, tam);
-				system("cls");
-				
-				cout<<"\tTEXTO CODIFICADO:\n\n\n"<<cesar.getTexto();
-				myfile.open ("codificado.txt",ios::trunc);
-				if(myfile.is_open()){
-					myfile<<cesar.getTexto();
-				}else{
-					cout<<"NO SE COPIO LA PALABRA"<<endl;
+				}
+				if(bandera==1){
+					newPantalla();
+					cout<<"INGRESE EL TEXTO QUE DESEA CODIFICAR"<<endl;
+					do{
+						fflush(stdin);
+						getline(cin,otra);
+						tam=(otra.size());
+						otra=transf_A_Mayuscula(otra, tam);
+						if(otra!=":SACAME"){
+							auxiliar=otra;
+						}else{
+							auxiliar="";
+						}
+						texto=texto+auxiliar+'\n';
+					}while(otra!=":SACAME");
+					
+					tam=(texto.size());
+					texto=transf_A_Mayuscula(texto, tam);
+					system("cls");
+					cout<<"\t TEXTO ESCRITO:\n\n"<<texto<<endl;
+					cout<<"INGRESE El NUMERO DE LA CODIFICACION"<<endl;
+					cin>>numero;
+					cesar.setCodificado(texto, numero, tam);
+					system("cls");
+					
+					cout<<"\tTEXTO CODIFICADO:\n\n\n"<<cesar.getTexto();
+					myfile.open (nArchivo,ios::trunc);//############
+					if(myfile.is_open()){
+						myfile<<cesar.getTexto();
+					}else{
+						cout<<"NO SE COPIO EL TEXTO"<<endl;
+						newPantalla();
+					}
+					myfile.close();
 					newPantalla();
 				}
-				myfile.close();
-				newPantalla();
 			break;
 		
 			case 2:
-				archivo.open("codificado 2.txt");
-				cout<<"\tTEXTO CODIFICADO:\n\n\n";
-				if(archivo.is_open()){
-					while(getline(archivo,texto)){
-						cesar.setTexto(texto);
-						cout<<cesar.getTexto()<<endl;
-					}
-				}
-				archivo.clear();
-				archivo.seekg(0,ios::beg);
-				cout<<"INGRESE El NUMERO DE LA DECODIFICACION"<<endl;
-				cin>>numero;
+				cout<<"\tBUSCAR ARCHIVO:\n\n";
+				cout<<"INGRESE EL NOMBRE DEL ARCHIVO\n";
+				cin>>nArchivo;
 				system("cls");
-				cout<<"\tTEXTO DECODIFICADO:\n\n\n";
-				if(archivo.is_open()){
-					while(getline(archivo,texto)){
-						tam=texto.size();
-						cesar.setDecodificado(texto, numero, tam);
-						cout<<cesar.getTexto()<<endl;
-					}
+				ft= fopen(nArchivo,"r");
+				if(ft){
+					cout<<"\tARCHIVO ENCONTRADO!!\n\AHORA YA PUEDE COMENZAR A DECODIFICAR SU CONTENIDO"<<endl;
+					bandera=1;
+				}
+				else{
+					cout<<"EL ARCHIVO NO EXISTE!!\n\n";
+					cout<<"DEBE INGRESAR EL NOMBRE DE UN ARCHIVO EXISTENTE"<<endl;
+					system("pause");
+					bandera=0;
 				}
 				
-				else{
-					cout<<"no se leyo el archivo";
+				if(bandera==1){
+					newPantalla();
+					archivo.open(nArchivo);//############
+					cout<<"\tTEXTO CODIFICADO:\n\n\n";
+					if(archivo.is_open()){
+						while(getline(archivo,texto)){
+							cesar.setTexto(texto);
+							cout<<cesar.getTexto()<<endl;
+						}
+					}
+					archivo.clear();
+					archivo.seekg(0,ios::beg);
+					cout<<"INGRESE El NUMERO DE LA DECODIFICACION"<<endl;
+					cin>>numero;
+					system("cls");
+					cout<<"\tTEXTO DECODIFICADO:\n\n\n";
+					if(archivo.is_open()){
+						while(getline(archivo,texto)){
+							tam=texto.size();
+							cesar.setDecodificado(texto, numero, tam);
+							cout<<cesar.getTexto()<<endl;
+						}
+					}
+					
+					else{
+						cout<<"no se leyo el archivo";
+					}
+					archivo.close();
+					newPantalla();
 				}
-				archivo.close();
-				newPantalla();
 			break;
 			
 			case 3:
