@@ -237,6 +237,9 @@ string transf_A_Mayuscula(string texto, int tam){
 		if (texto[x]>96 && texto[x]<123){
 			texto[x]=texto[x]-32;
 		}
+		if(texto[x]==char(164)){
+			texto[x]=texto[x]+1;
+		}
 	}
 	nTexto=texto;
 	return nTexto;	

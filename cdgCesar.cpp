@@ -14,7 +14,10 @@ void cdgCesar::setCodificado(string tex, int numero, int tam){
 			if(this->texto[x]<65){
 				this->texto[x]=this->texto[x]+26;
 			}
-		}	
+		}
+		if(this->texto[x]==char(165)){
+			this->texto[x]=this->texto[x]-130;
+		}		
 	}
 }
 
@@ -27,6 +30,9 @@ void cdgCesar::setDecodificado(string tex, int numero, int tam){
 				this->texto[x]=this->texto[x]-26;
 			}
 		}
+		if(this->texto[x]==char(35)){
+			this->texto[x]=this->texto[x]+130;
+		}	
 	}
 }
 
