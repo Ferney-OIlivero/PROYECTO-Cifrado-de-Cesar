@@ -8,6 +8,7 @@
 using namespace std;
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
 int validacion(string vartemp);
+int validacionNombre(string vartemp);
 void newPantalla();
 string transf_A_Mayuscula(string tex, int tam);
 	
@@ -48,11 +49,19 @@ int main(int argc, char** argv) {
 		system("cls");
 		switch(opc){
 			case 1:
-				
-				cout<<"\tBUSCAR ARCHIVO:\n\n";
-				cout<<"INGRESE EL NOMBRE DEL ARCHIVO CON SU RESPECTIVA EXTENSION\n";
-				getline(cin,vartemp);
-				nArchivo=strdup(vartemp.c_str());
+				do{
+					cout<<"\tBUSCAR ARCHIVO:\n\n";
+					cout<<"INGRESE EL NOMBRE DEL ARCHIVO CON SU RESPECTIVA EXTENSION\n";
+					getline(cin,vartemp);
+					if(validacionNombre(vartemp)==0){
+						cout<<"\n"<<"LOS NOMBRES DE LOS ARCHIVOS NO PUEDEN CONTENER\nNINGUNO DE LOS SIGUIENTES CARACTERES\n     /  :  |  <  >  \?  *  \"  "<<endl<<endl;
+						system("pause");
+						system("cls");
+					}else{
+						nArchivo=strdup(vartemp.c_str());
+						bandera=1;
+		            }   	
+				}while(bandera!=1);
 				system("cls");
 				ft= fopen(nArchivo,"r");
 				if(ft){
@@ -200,6 +209,17 @@ int validacion(string vartemp){
     int tam=vartemp.size();
 	for(int a=0;a<tam;a++){
 		if(vartemp[a]<48 || vartemp[a]>57){
+			bandera=0;
+		}
+	}
+	return bandera;
+}
+
+int validacionNombre(string vartemp){
+	int bandera=1;
+    int tam=vartemp.size();
+	for(int a=0;a<tam;a++){
+		if((vartemp[a]==34 || vartemp[a]==42 || vartemp[a]==47 || vartemp[a]==58 || vartemp[a]==60 || vartemp[a]==62 || vartemp[a]==63 || vartemp[a]==92 || vartemp[a]==124)){
 			bandera=0;
 		}
 	}
