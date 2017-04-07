@@ -7,7 +7,7 @@
 
 using namespace std;
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
-bool validar(string valor);
+int validacion(string vartemp);
 void newPantalla();
 string transf_A_Mayuscula(string tex, int tam);
 	
@@ -15,22 +15,23 @@ int main(int argc, char** argv) {
 	
 	cdgCesar cesar;
 	string auxiliar,otra,texto,vartemp;
-	int numero,tam,opc,cont=0,bandera=0;;
+	int numero,tam,opc,cont=0,bandera=0;
+	char nArchivo[100];
 	ofstream myfile;
 	ifstream archivo;
-	
+	FILE *ft;
 	do{
-
 		do{
 			system("cls");
-			fflush (stdin);
-			cout<<"\tSELECIONES UNA OPCION"<<endl;
+			fflush(stdin);
+			cout<<"\tSELECIONE UNA OPCION"<<endl;
 			cout<<"1.- CODIFICAR"<<endl;
 			cout<<"2.- DECODIFICAR"<<endl;
 			cout<<"3.- SALIR"<<endl;		
 			cout<<"\nOpcion: ";
-			cin>>vartemp;
-			if(validar(vartemp)==false){
+			getline(cin,vartemp);
+			
+			if(validacion(vartemp)==0){
 				cout<<"\n"<<ERROR<<endl<<endl;
 				system("pause");
 			}else{
@@ -47,6 +48,16 @@ int main(int argc, char** argv) {
 		system("cls");
 		switch(opc){
 			case 1:
+				cout<<"\tBUSCAR ARCHIVO:\n\n";
+				cout<<"INGRESE EL NOMBRE DEL ARCHIVO CON SU RESPECTIVA EXTENSION\n";
+				cin>>nArchivo;
+				ft= fopen(nArchivo,"r");
+				if(ft){
+					cout<<"EXISTE\n\n";
+				}
+				else{
+					cout<<"NO EXISTE\n\n";
+				}
 				cout<<"INGRESE EL TEXTO QUE DESEA CODIFICAR"<<endl;
 				do{
 					fflush(stdin);
@@ -70,7 +81,7 @@ int main(int argc, char** argv) {
 				cesar.setCodificado(texto, numero, tam);
 				system("cls");
 				
-				cout<<"TEXTO CODIFICADO:\n\n"<<cesar.getTexto();
+				cout<<"\tTEXTO CODIFICADO:\n\n\n"<<cesar.getTexto();
 				myfile.open ("codificado.txt",ios::trunc);
 				if(myfile.is_open()){
 					myfile<<cesar.getTexto();
@@ -83,12 +94,19 @@ int main(int argc, char** argv) {
 			break;
 		
 			case 2:
-				
+				archivo.open("codificado 2.txt");
+				cout<<"\tTEXTO CODIFICADO:\n\n\n";
+				if(archivo.is_open()){
+					while(getline(archivo,texto)){
+						cesar.setTexto(texto);
+						cout<<cesar.getTexto()<<endl;
+					}
+				}
+				archivo.clear();
+				archivo.seekg(0,ios::beg);
 				cout<<"INGRESE El NUMERO DE LA DECODIFICACION"<<endl;
 				cin>>numero;
 				system("cls");
-				
-				archivo.open("codificado.txt");
 				cout<<"\tTEXTO DECODIFICADO:\n\n\n";
 				if(archivo.is_open()){
 					while(getline(archivo,texto)){
@@ -114,16 +132,15 @@ int main(int argc, char** argv) {
 	return 0;
 }
 
-bool validar(string valor){
-    bool valido=true;
-    int tam=valor.size();
-	for(int i=0;i<tam;i++){
-		if((valor[i]<48 || valor[i]>57)){
-			valido=false;
-			break;
+int validacion(string vartemp){
+	int bandera=1;
+    int tam=vartemp.size();
+	for(int a=0;a<tam;a++){
+		if(vartemp[a]<48 || vartemp[a]>57){
+			bandera=0;
 		}
 	}
-	return valido;
+	return bandera;
 }
 
 void newPantalla(){
