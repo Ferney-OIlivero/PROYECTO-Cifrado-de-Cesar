@@ -21,6 +21,9 @@ int main(int argc, char** argv) {
 	ofstream myfile;
 	ifstream archivo;
 	FILE *ft;
+		
+	cout<<BIENVENIDA<<endl<<endl<<endl<<endl<<endl;	
+	newPantalla();
 	do{
 		do{
 			system("cls");
@@ -51,7 +54,8 @@ int main(int argc, char** argv) {
 			case 1:
 				do{
 					cout<<"\tBUSCAR ARCHIVO:\n\n";
-					cout<<"INGRESE EL NOMBRE DEL ARCHIVO CON SU RESPECTIVA EXTENSION\n";
+					cout<<"INGRESE EL NOMBRE DEL ARCHIVO\n\n";
+					cout<<"NOMBRE:  ";
 					getline(cin,vartemp);
 					if(validacionNombre(vartemp)==0){
 						cout<<"\n"<<"LOS NOMBRES DE LOS ARCHIVOS NO PUEDEN CONTENER\nNINGUNO DE LOS SIGUIENTES CARACTERES\n     /  :  |  <  >  \?  *  \"  "<<endl<<endl;
@@ -111,6 +115,7 @@ int main(int argc, char** argv) {
 					newPantalla();
 					cout<<"INGRESE EL TEXTO QUE DESEA CODIFICAR"<<endl;
 					cout<<"PARA FINALIZAR LA ESCRITURA\nDEBE ESCRIBIR :SACAME en una linea"<<endl;
+					cout<<"\nINICIE SU ESCRITURA:"<<endl<<endl;
 					do{
 						fflush(stdin);
 						getline(cin,otra);
@@ -126,9 +131,10 @@ int main(int argc, char** argv) {
 					
 					tam=(texto.size());
 					texto=transf_A_Mayuscula(texto, tam);
-					newPantalla();	
+					system("cls");	
 					cout<<"\t TEXTO ESCRITO:\n\n"<<texto<<endl;
 					cout<<"INGRESE El NUMERO DE LA CODIFICACION"<<endl;
+					cout<<"NUM:  ";
 					cin>>numero;
 					cesar.setCodificado(texto, numero, tam);
 					system("cls");
@@ -148,7 +154,8 @@ int main(int argc, char** argv) {
 		
 			case 2:
 				cout<<"\tBUSCAR ARCHIVO:\n\n";
-				cout<<"INGRESE EL NOMBRE DEL ARCHIVO CON SU RESPECTIVA EXTENSION\n";
+				cout<<"INGRESE EL NOMBRE DEL ARCHIVO\n\n";
+				cout<<"NOMBRE:  ";
 				getline(cin,vartemp);
 				nArchivo=strdup(vartemp.c_str());
 				system("cls");
@@ -177,6 +184,7 @@ int main(int argc, char** argv) {
 					archivo.clear();
 					archivo.seekg(0,ios::beg);
 					cout<<"INGRESE El NUMERO DE LA DECODIFICACION"<<endl;
+					cout<<"NUM:  ";
 					cin>>numero;
 					system("cls");
 					cout<<"\tTEXTO DECODIFICADO:\n\n\n";
