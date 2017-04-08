@@ -110,6 +110,7 @@ int main(int argc, char** argv) {
 				if(bandera==1){
 					newPantalla();
 					cout<<"INGRESE EL TEXTO QUE DESEA CODIFICAR"<<endl;
+					cout<<"PARA FINALIZAR LA ESCRITURA\nDEBE ESCRIBIR :SACAME en una linea"<<endl;
 					do{
 						fflush(stdin);
 						getline(cin,otra);
